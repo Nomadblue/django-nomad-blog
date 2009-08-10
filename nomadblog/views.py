@@ -17,7 +17,7 @@ def _get_extra_filters(username=None):
     return extra_filters
 
 def show_post(request, category, slug, username=None, render_response=True,
-              context=None, template='nomadblog/show_post.html'):
+              context=None, template='nomadblog/show_post.html', extra_content={}):
     extra_filters = _get_extra_filters(username)
     try:
         cat = Category.objects.get(name=category)
@@ -26,6 +26,7 @@ def show_post(request, category, slug, username=None, render_response=True,
     except ObjectDoesNotExist:
         raise Http404
     ctxt_dict = {'post': post}
+    ctxt_dict.update(extra_content)
     context = RequestContext(request, ctxt_dict) if context is None \
         else context.update(ctxt_dict)
     if not render_response:
