@@ -45,26 +45,25 @@ Configuration
 
 Add ``nomadblog`` to the ``INSTALLED_APPS`` setting of your settings file.
 
-Define the variable ``NOMADBLOG_SINGLE_USER`` in your project settings.py as ``True`` if you want a single blog configuration, or ``False`` if you will allow for multiple blog nesting. For example::
+Define the variable ``NOMADBLOG_SINGLE_USER`` in your project settings.py as ``True`` if you want a single blog configuration, or ``False`` if you will allow for multiple blog nesting. For example, for a single user installation, set::
 
     NOMADBLOG_SINGLE_USER = True
 
 Put this code somewhere in the beggining of your root ``urls.py``::
 
-  try:
-      from settings import NOMADBLOG_SINGLE_USER
-  except ImportError:
-      NOMADBLOG_SINGLE_USER = False
+    NOMADBLOG_SINGLE_USER = getattr(settings, 'NOMADBLOG_SINGLE_USER', False)
 
-Include this URL pattern also in urlpatterns in your root ``urls.py``::
+Include this URL pattern in your root ``urls.py``::
 
   (r'^blog/', include('nomadblog.urls')) if NOMADBLOG_SINGLE_USER else (r'^blogs/(?P<username>\w+)/', include('nomadblog.urls'))
+
+You can change the ``blog/`` or ``blogs/`` part but do not modify ``(?P<username>\w+)``, because it is used in the app code.
 
 
 Creating Templates
 ==================
 
-``django-nomadblog`` views render four templates, one for each view (``list_posts``, ``show_post``, ``list_categories``, ``list_posts_by category``) named after its corresponding view name, plus '.html':
+``django-nomadblog`` views render four templates, one for each view (``list_posts``, ``show_post``, ``list_categories``, ``list_posts_by category``) named after its corresponding view name, plus '.html'.
 
 If you are happy with this layout, you can just simply create a folder called ``nomadblog`` in one of your template paths (like ``yourproject/templates/nomadblog``) and include these four template files.
 
@@ -74,7 +73,7 @@ If you otherwise prefer any other templates, you can override the ``template`` v
       regex=r'^$',
       view='list_posts',
       name='list_posts',
-      kwargs={'template': 'yourtemplatepath/yourtemplate.html'},
+      kwargs={'template': 'yourtemplatepath/templates/yourtemplate.html'},
   )
 
 Introspecting ``nomadblog.views`` will give you the clue on what context each template is going to receive.
@@ -98,7 +97,7 @@ So, for instance, say you want to wrap around ``list_post`` view::
 A comment on categories model
 =============================
 
-This model is included to allow one -- and only one -- category for each blog post. I could have ommited this feature and delegated it to other parts such as django-tagging_. But first, all I needed when I was writing was one category to start up the blog quickly. And second, although I always try to keep my code clean and simple, I as well fancy the "batteries-included" concept Python and Django praise. So finally I included the model in the first version of this application for the sake of the former statements. I don't think it'll annoy people implementing their own category system, theirs and this can cohabit smoothly.
+This model is included to allow one -- and only one -- category for each blog post. I could have ommited this feature and delegated it to other parts such as django-tagging_. But first, all I needed when I was writing was one category to start up the blog quickly. And second, although I always try to keep my code clean and simple, I as well fancy the "batteries-included" concept Python and Django praise. So finally I included the model in the first version of this application. I don't think it'll annoy people implementing their own category system, theirs and this can cohabit smoothly.
 
 .. _django-tagging: http://code.google.com/p/django-tagging/
 
