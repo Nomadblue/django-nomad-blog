@@ -22,9 +22,13 @@ Features
 Installation
 ============
 
-Soon I'll package the whole thing and upload it to PyPi_ for the sake of standard installations.
+The package is listed in the `Python Package Index`_. You can use easy_install::
 
-.. _Pypi: http://pypi.python.org/
+    sudo easy_install django_nomadblog
+
+You can alternatively download the source code for the latest release here: http://bitbucket.org/nabucosound/django-nomadblog/downloads/
+
+.. _Python Package Index: http://pypi.python.org/
 
 Mercurial checkout
 ------------------
