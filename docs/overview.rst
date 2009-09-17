@@ -10,6 +10,10 @@ Overview
 
 This is a basic Django_ application implementing the most simplest form of a blog (from my point of view, of course). It has been written with an eye on keeping modularity as far as possible, so you won't find lots of goodies in the code, but just a couple of features to help you start hacking. 
 
+Visit the app homepage_ for a complete detailed information.
+
+.. _homepage: http://nomadblue.com/projects/django-nomadblog/
+
 Features
 ========
 
