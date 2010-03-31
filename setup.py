@@ -1,10 +1,14 @@
+import os
 from distutils.core import setup
+
+doc_dir = os.path.join(os.path.dirname(__file__), 'docs')
+long_desc_file = os.path.join(doc_dir, 'overview.rst')
 
 setup(
     name='django-nomadblog',
     version=__import__('nomadblog').__version__,
     description='A minimalist Django blogging system.',
-    long_description=open('docs/overview.rst').read(),
+    long_description=open(long_desc_file).read(),
     author='Hector Garcia',
     author_email='hector@nomadblue.com',
     url='http://nomadblue.com/projects/django-nomadblog/',

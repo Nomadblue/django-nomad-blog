@@ -1,6 +1,0 @@
-setup.py
-nomadblog/__init__.py
-nomadblog/admin.py
-nomadblog/models.py
-nomadblog/urls.py
-nomadblog/views.py
