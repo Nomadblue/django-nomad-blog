@@ -1,0 +1,8 @@
+This is a multiple user installation of nomadblog.
+
+Run syncdb command with the --noinput parameter, because the superuser
+is created with the fixture, along with the nomadblog data:
+
+python manage.py syncdb --noinput
+
+To access the admin, use 'hector' as user and '1234' for password.

@@ -1,27 +1,47 @@
 from django.db import models
 from django.contrib.auth.models import User
+import settings
+
+NOMADBLOG_MULTIPLE_BLOGS = getattr(settings, 'NOMADBLOG_MULTIPLE_BLOGS', False) 
+
 
 try:
-    from settings import NOMADBLOG_SINGLE_USER
+    from settings import POST_STATUS_CHOICES
 except ImportError:
-    NOMADBLOG_SINGLE_USER = False
+    PUBLIC_STATUS = 0
+    DRAFT_STATUS = 1
+    PRIVATE_STATUS = 2
+    POST_STATUS_CHOICES = (
+        (PUBLIC_STATUS, 'public'),
+        (DRAFT_STATUS, 'draft'),
+        (PRIVATE_STATUS, 'private'),
+    )
 
 
 class Blog(models.Model):
-    user = models.ForeignKey(User)
+    users = models.ManyToManyField(User, through='BlogUser')
+    slug = models.SlugField(max_length=50, unique=True)
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=500)
     creation_date = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
-        return '%s - %s' % (self.user, self.title)
+        return u"%s" % self.title
 
     @models.permalink
     def get_absolute_url(self):
         filters = {}
-        if not NOMADBLOG_SINGLE_USER:
-            filters['username'] = self.user.username
+        if NOMADBLOG_MULTIPLE_BLOGS:
+            filters['blog_slug'] = self.slug
         return ('list_posts', (), filters)
+
+
+class BlogUser(models.Model):
+    user = models.ForeignKey(User)
+    blog = models.ForeignKey(Blog)
+
+    def __unicode__(self):
+        return u"%s - %s" % (self.user, self.blog)
 
 
 class Category(models.Model):
@@ -35,17 +55,9 @@ class Category(models.Model):
 
 
 class Post(models.Model):
-    PUBLIC_STATUS = 0
-    DRAFT_STATUS = 1
-    PRIVATE_STATUS = 2
-    STATUS_CHOICES = (
-        (PUBLIC_STATUS, 'public'),
-        (DRAFT_STATUS, 'draft'),
-        (PRIVATE_STATUS, 'private'),
-    )
-    blog = models.ForeignKey(Blog)
+    bloguser = models.ForeignKey(BlogUser)
     pub_date = models.DateTimeField(auto_now_add=True)
-    status = models.IntegerField(choices=STATUS_CHOICES, default=1)
+    status = models.IntegerField(choices=POST_STATUS_CHOICES, default=0)
     title = models.CharField(max_length=300)
     slug = models.SlugField(max_length=50, unique=True)
     category = models.ForeignKey(Category)
@@ -54,10 +66,10 @@ class Post(models.Model):
     @models.permalink
     def get_absolute_url(self):
         filters = {'category': self.category.name, 'slug': self.slug}
-        if not NOMADBLOG_SINGLE_USER:
-            filters['username'] = self.blog.user.username
+        if NOMADBLOG_MULTIPLE_BLOGS:
+            filters['blog_slug'] = self.bloguser.blog.slug
         return ('show_post', (), filters)
 
     def __unicode__(self):
-        return "%s - %s" % (self.blog.user, self.title)
+        return "%s - %s" % (self.bloguser, self.title)
 

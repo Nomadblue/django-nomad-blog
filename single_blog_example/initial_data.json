@@ -1,0 +1,58 @@
+[
+  {
+    "pk": 1, 
+    "model": "auth.user", 
+    "fields": {
+      "username": "hector", 
+      "first_name": "", 
+      "last_name": "", 
+      "is_active": true, 
+      "is_superuser": true, 
+      "is_staff": true, 
+      "last_login": "2010-07-08 14:44:11", 
+      "groups": [], 
+      "user_permissions": [], 
+      "password": "sha1$dc024$b921f921693f4e863a9517be7f98b0157f2151de", 
+      "email": "a@a.com", 
+      "date_joined": "2010-07-08 14:44:11"
+    }
+  },
+  {
+    "pk": 1, 
+    "model": "nomadblog.blog", 
+    "fields": {
+      "description": "This is the blog of Hector", 
+      "creation_date": "2010-07-08 14:46:18", 
+      "slug": "hector-blog", 
+      "title": "Hector Blog"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "nomadblog.bloguser", 
+    "fields": {
+      "blog": 1, 
+      "user": 1
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "nomadblog.category", 
+    "fields": {
+      "name": "django"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "nomadblog.post", 
+    "fields": {
+      "status": 0, 
+      "category": 1, 
+      "title": "First post", 
+      "bloguser": 1, 
+      "content": "Vel est velit dolore claritatem option. Te et legunt eros lorem est. Nisl processus littera qui litterarum nulla. \r\n\r\nLectorum lectorum nobis aliquip ullamcorper fiant. Per augue accumsan iusto odio magna. Lectorum dolore in legunt parum et.", 
+      "pub_date": "2010-07-08 14:46:45", 
+      "slug": "first-post"
+    }
+  }
+]

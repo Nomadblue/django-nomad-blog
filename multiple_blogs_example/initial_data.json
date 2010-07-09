@@ -1,0 +1,193 @@
+[
+  {
+    "pk": 1, 
+    "model": "auth.user", 
+    "fields": {
+      "username": "hector", 
+      "first_name": "", 
+      "last_name": "", 
+      "is_active": true, 
+      "is_superuser": true, 
+      "is_staff": true, 
+      "last_login": "2010-07-08 15:14:35", 
+      "groups": [], 
+      "user_permissions": [], 
+      "password": "sha1$514b2$31154297abc490b797b42f2e638892d767a1a1d7", 
+      "email": "a@a.com", 
+      "date_joined": "2010-07-08 15:14:16"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "auth.user", 
+    "fields": {
+      "username": "buzz", 
+      "first_name": "", 
+      "last_name": "", 
+      "is_active": true, 
+      "is_superuser": false, 
+      "is_staff": false, 
+      "last_login": "2010-07-08 15:27:14", 
+      "groups": [], 
+      "user_permissions": [], 
+      "password": "sha1$e0a38$9cbb6ae1b246532e477edb2335e62bb735cecb61", 
+      "email": "", 
+      "date_joined": "2010-07-08 15:27:14"
+    }
+  },
+  {
+    "pk": 1, 
+    "model": "nomadblog.blog", 
+    "fields": {
+      "description": "This is the blog of Hector", 
+      "creation_date": "2010-07-08 15:17:05", 
+      "slug": "hector-blog", 
+      "title": "Hector Blog"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "nomadblog.blog", 
+    "fields": {
+      "description": "Another blog bites the dust", 
+      "creation_date": "2010-07-08 15:28:25", 
+      "slug": "another-blog", 
+      "title": "Another blog"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "nomadblog.blog", 
+    "fields": {
+      "description": "All about Nomadblue", 
+      "creation_date": "2010-07-08 15:31:36", 
+      "slug": "planet-nomad", 
+      "title": "Planet Nomad"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "nomadblog.bloguser", 
+    "fields": {
+      "blog": 1, 
+      "user": 1
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "nomadblog.bloguser", 
+    "fields": {
+      "blog": 2, 
+      "user": 2
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "nomadblog.bloguser", 
+    "fields": {
+      "blog": 3, 
+      "user": 2
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "nomadblog.category", 
+    "fields": {
+      "name": "apocalypse"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "nomadblog.category", 
+    "fields": {
+      "name": "category1"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "nomadblog.category", 
+    "fields": {
+      "name": "nomad"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "nomadblog.post", 
+    "fields": {
+      "status": 0, 
+      "category": 1, 
+      "title": "The end is near", 
+      "bloguser": 1, 
+      "content": "Minim te eleifend sequitur est nibh. Dolor enim aliquam nibh demonstraverunt te. Qui vero eodem congue iusto nam.\r\n\r\nNon lectores accumsan legunt in lectores. Legunt mazim quod et nunc est. Vel nulla qui suscipit nonummy nulla.", 
+      "pub_date": "2010-07-08 15:23:57", 
+      "slug": "the-end-is-near"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "nomadblog.post", 
+    "fields": {
+      "status": 0, 
+      "category": 1, 
+      "title": "Goodbye cruel world", 
+      "bloguser": 1, 
+      "content": "Ad suscipit zzril accumsan in erat. Wisi assum etiam euismod fiant lectorum. Nunc dolore vel parum in suscipit. \r\n\r\nDelenit feugait facilisi gothica eu eros. Molestie in etiam eodem ea humanitatis. Est quam imperdiet ut qui quod.", 
+      "pub_date": "2010-07-08 15:24:28", 
+      "slug": "goodbye-cruel-world"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "nomadblog.post", 
+    "fields": {
+      "status": 0, 
+      "category": 2, 
+      "title": "Here we are", 
+      "bloguser": 2, 
+      "content": "Dolore lobortis odio eodem duis blandit. Claram tation dynamicus consequat ad cum. Et nonummy est amet futurum legunt. \r\n\r\nLiber littera eu in dignissim parum. Ut magna tempor wisi consectetuer littera. Delenit et mazim ut vulputate minim.", 
+      "pub_date": "2010-07-08 15:29:57", 
+      "slug": "here-we-are"
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "nomadblog.post", 
+    "fields": {
+      "status": 0, 
+      "category": 3, 
+      "title": "Nomads unite!", 
+      "bloguser": 3, 
+      "content": "Wisi possim typi humanitatis eorum saepius. Magna etiam quarta litterarum et humanitatis. Option typi blandit lius decima consequat. \r\n\r\nCommodo ut consequat eu legentis nisl. Luptatum suscipit me assum molestie commodo. Tempor velit eleifend luptatum diam tation.", 
+      "pub_date": "2010-07-08 15:32:48", 
+      "slug": "nomads-unite"
+    }
+  },
+  {
+    "pk": 1, 
+    "model": "website.websitepost", 
+    "fields": {
+      "summary": "Minim te eleifend sequitur est nibh. Dolor enim aliquam nibh demonstraverunt te. Qui vero eodem congue iusto nam."
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "website.websitepost", 
+    "fields": {
+      "summary": "Ad suscipit zzril accumsan in erat. Wisi assum etiam euismod fiant lectorum. Nunc dolore vel parum in suscipit."
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "website.websitepost", 
+    "fields": {
+      "summary": "Dolore lobortis odio eodem duis blandit. Claram tation dynamicus consequat ad cum. Et nonummy est amet futurum legunt."
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "website.websitepost", 
+    "fields": {
+      "summary": "Wisi possim typi humanitatis eorum saepius. Magna etiam quarta litterarum et humanitatis. Option typi blandit lius decima consequat."
+    }
+  }
+]

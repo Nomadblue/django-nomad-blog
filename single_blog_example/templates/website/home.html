@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{{ bloguser__blog }}</h1>
+    <h2>{{ bloguser__blog.description }}</h2>
+    <h3>By {{ bloguser.user }}</h3>
+    <h3><a href="{% url list_categories %}">Categories</a></h3>
+    <ul>
+    {% for c in categories %}
+        <li><a href="{% url list_posts_by_category c.name %}">{{ c }}</a></li>
+    {% endfor %}
+    </ul>
+    <p><a href="{% url list_posts %}">See list of latest posts</a></p>
+{% endblock content %}

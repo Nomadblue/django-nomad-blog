@@ -1,0 +1,10 @@
+{% for post in posts %}
+<div class="entry">
+    <h2><a href="{{ post.get_absolute_url }}" title="{{ post.title }}">{{ post.title }}</a></h2>
+    <p>{{ post.content|truncatewords:"30" }} <a href="{{ post.get_absolute_url }}">Read more</a></p>
+</div>
+{% empty %}
+<div class="entry">
+    <p>Sorry, no posts found.</p>
+</div>
+{% endfor %}
