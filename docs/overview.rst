@@ -2,6 +2,10 @@
 Django Nomadblog
 ================
 
+This is the documenation for django-nomadblog v0.4. To see docs for
+former releases, please check out the ``docs/`` folder in the
+sorce code distribution package corresponding to your version.
+
 Overview
 ========
 
