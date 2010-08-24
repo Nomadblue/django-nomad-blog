@@ -1,0 +1,1 @@
+* remove list_posts_by_category by adding a cats python list as new param for _get_extra_filters
