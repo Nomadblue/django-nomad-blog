@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-import settings
+from django.conf import settings
 
 NOMADBLOG_MULTIPLE_BLOGS = getattr(settings, 'NOMADBLOG_MULTIPLE_BLOGS', False) 
 

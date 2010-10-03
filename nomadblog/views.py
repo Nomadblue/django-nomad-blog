@@ -2,8 +2,8 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
+from django.conf import settings
 
-import settings
 from nomadblog.models import Blog, BlogUser, Post, Category
 
 multiblog = getattr(settings, 'NOMADBLOG_MULTIPLE_BLOGS', False) 
