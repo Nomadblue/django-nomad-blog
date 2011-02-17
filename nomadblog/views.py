@@ -107,7 +107,7 @@ def list_posts_by_category_ctxt(request, category, context=None, model=Post,
 
 def list_posts(request, model=Post, blog_slug=None, username=None,
                status=DEFAULT_STATUS, order='-pub_date',
-               template='nomadblog/list_posts.html'):
+               extra_ctxt={}, template='nomadblog/list_posts.html'):
     """
     By default, a queryset of published Post model instances for all users
     are retrieved, ordered in reverse chronological order.
@@ -116,11 +116,12 @@ def list_posts(request, model=Post, blog_slug=None, username=None,
     context = list_posts_ctxt(request, model=model, blog_slug=blog_slug,
                               username=username, status=status)
     context['posts'] = context['posts'].order_by(order)
+    context.update(extra_ctxt)
     return render_to_response(template, {'multiblog': multiblog}, context)
 
 def show_post(request, category, slug, model=Post, blog_slug=None,
               username=None, status=DEFAULT_STATUS,
-              template='nomadblog/show_post.html'):
+              extra_ctxt={}, template='nomadblog/show_post.html'):
     """
     By default, a published Post model instance for a given user is retrieved.
     You can override these settings if you want to.
@@ -128,11 +129,12 @@ def show_post(request, category, slug, model=Post, blog_slug=None,
     context = show_post_ctxt(request, category, slug, model=model,
                              username=username, blog_slug=blog_slug,
                              status=status)
+    context.update(extra_ctxt)
     return render_to_response(template, {'multiblog': multiblog}, context)
 
 def list_categories(request, model=Post, blog_slug=None,
                     username=None, status=DEFAULT_STATUS,
-                    template='nomadblog/list_categories.html'):
+                    extra_ctxt={}, template='nomadblog/list_categories.html'):
     """
     By default, a queryset of categories related to published Post model
     instances for all users are retrieved.
@@ -140,12 +142,14 @@ def list_categories(request, model=Post, blog_slug=None,
     """
     context = list_categories_ctxt(request, blog_slug=blog_slug,
                                    username=username)
+    context.update(extra_ctxt)
     return render_to_response(template, {'multiblog': multiblog}, context)
 
 def list_posts_by_category(request, category, model=Post,
                            blog_slug=None, username=None,
                            status=DEFAULT_STATUS, order='-pub_date',
-                           template='nomadblog/list_posts_by_category.html'):
+                           textra_ctxt={},
+                           emplate='nomadblog/list_posts_by_category.html'):
     """
     By default, a queryset of published Post model
     instances related to the given category and for all users are retrieved.
@@ -155,5 +159,6 @@ def list_posts_by_category(request, category, model=Post,
                                           username=username,
                                           blog_slug=blog_slug)
     context['posts'] = context['posts'].order_by(order)
+    context.update(extra_ctxt)
     return render_to_response(template, {'multiblog': multiblog}, context)
 
