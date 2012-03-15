@@ -1,13 +1,15 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.models import User
 from django.conf import settings
 
-from nomadblog.models import Blog, BlogUser, Post, Category
+from nomadblog.models import Blog, BlogUser, Category
 
-multiblog = getattr(settings, 'NOMADBLOG_MULTIPLE_BLOGS', False) 
+multiblog = getattr(settings, 'NOMADBLOG_MULTIPLE_BLOGS', False)
 DEFAULT_STATUS = getattr(settings, 'PUBLIC_STATUS', 0)
+POST_MODEL_IMPORT = getattr(settings, 'POST_MODEL', 'nomadblog.models.Post')
+POST_MODULE, dummy, POST_MODEL_NAME = POST_MODEL_IMPORT.rpartition('.')
+POST_MODEL = getattr(__import__(POST_MODULE, fromlist=[POST_MODULE]), POST_MODEL_NAME)
 
 
 def _get_extra_filters(blog_slug=None, username=None, status=None):
@@ -29,12 +31,12 @@ def _get_extra_filters(blog_slug=None, username=None, status=None):
         extra_filters['status'] = status
     return extra_filters
 
-def list_posts_ctxt(request, context=None, model=Post,
+def list_posts_ctxt(request, context=None, model=POST_MODEL,
                     blog_slug=None, username=None, status=None):
     """
     Returns a queryset of post instances. ``model`` param specifies
     post Model to retrieve, either ``Post`` model by default or
-    a subcclass defined by the user. ``blog_slug`` and ``status``
+    a subclass defined by the user. ``blog_slug`` and ``status``
     may be included as extra filters in the query, if passed.
     If no ``context`` is passed, it returns the results in a new
     ``RequestContext`` instead of updating the given one.
@@ -46,7 +48,7 @@ def list_posts_ctxt(request, context=None, model=Post,
     return RequestContext(request, ctxt_dict) if context is None \
         else context.update(ctxt_dict)
 
-def show_post_ctxt(request, category, slug, context=None, model=Post,
+def show_post_ctxt(request, category, slug, context=None, model=POST_MODEL,
                    blog_slug=None, username=None, status=None):
     """
     Returns a post instance with given ``slug``, related to category. ``model``
@@ -64,7 +66,7 @@ def show_post_ctxt(request, category, slug, context=None, model=Post,
     return RequestContext(request, ctxt_dict) if context is None \
         else context.update(ctxt_dict)
 
-def list_categories_ctxt(request, context=None, model=Post,
+def list_categories_ctxt(request, context=None, model=POST_MODEL,
                          blog_slug=None, username=None, status=None):
     """
     Returns a list of categories. ``model`` param specifies post Model to
@@ -83,7 +85,7 @@ def list_categories_ctxt(request, context=None, model=Post,
     return RequestContext(request, ctxt_dict) if context is None \
         else context.update(ctxt_dict)
 
-def list_posts_by_category_ctxt(request, category, context=None, model=Post, 
+def list_posts_by_category_ctxt(request, category, context=None, model=POST_MODEL,
                                 blog_slug=None, username=None, status=None):
     """
     Returns a list of posts related to a given category. ``model`` param
@@ -105,7 +107,7 @@ def list_posts_by_category_ctxt(request, category, context=None, model=Post,
 # functions above and get more flexibility, or you can simply use them
 # directly as views into your project.
 
-def list_posts(request, model=Post, blog_slug=None, username=None,
+def list_posts(request, model=POST_MODEL, blog_slug=None, username=None,
                status=DEFAULT_STATUS, order='-pub_date',
                extra_ctxt={}, template='nomadblog/list_posts.html'):
     """
@@ -119,7 +121,7 @@ def list_posts(request, model=Post, blog_slug=None, username=None,
     context.update(extra_ctxt)
     return render_to_response(template, {'multiblog': multiblog}, context)
 
-def show_post(request, category, slug, model=Post, blog_slug=None,
+def show_post(request, category, slug, model=POST_MODEL, blog_slug=None,
               username=None, status=DEFAULT_STATUS,
               extra_ctxt={}, template='nomadblog/show_post.html'):
     """
@@ -132,7 +134,7 @@ def show_post(request, category, slug, model=Post, blog_slug=None,
     context.update(extra_ctxt)
     return render_to_response(template, {'multiblog': multiblog}, context)
 
-def list_categories(request, model=Post, blog_slug=None,
+def list_categories(request, model=POST_MODEL, blog_slug=None,
                     username=None, status=DEFAULT_STATUS,
                     extra_ctxt={}, template='nomadblog/list_categories.html'):
     """
@@ -145,11 +147,11 @@ def list_categories(request, model=Post, blog_slug=None,
     context.update(extra_ctxt)
     return render_to_response(template, {'multiblog': multiblog}, context)
 
-def list_posts_by_category(request, category, model=Post,
+def list_posts_by_category(request, category, model=POST_MODEL,
                            blog_slug=None, username=None,
                            status=DEFAULT_STATUS, order='-pub_date',
-                           textra_ctxt={},
-                           emplate='nomadblog/list_posts_by_category.html'):
+                           extra_ctxt={},
+                           template='nomadblog/list_posts_by_category.html'):
     """
     By default, a queryset of published Post model
     instances related to the given category and for all users are retrieved.
