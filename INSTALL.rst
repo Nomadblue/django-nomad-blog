@@ -6,29 +6,11 @@ favorite package manager like easy_install or pip::
 
     pip install django_nomadblog
 
-You can also download the source code for the latest release or
-development version here::
+You can also download development code using git::
 
-    http://bitbucket.org/nabucosound/django-nomadblog/downloads/
+    git clone git@github.com:nabucosound/django-nomadblog.git
 
-.. _Python Package Index: http://pypi.python.org/pypi/django-nomadblog/
-
-Mercurial checkout
-------------------
-
-Install Mercurial_ if you don't have it yet, and clone the repository::
-
-    hg clone http://bitbucket.org/nabucosound/django-nomadblog/
-    
-For the old-school guys, symlink to the folder called ``nomadblog`` inside
-``django-nomadblog`` from somewhere in your PYTHONPATH -- could be the
-system-wide ``site-packages`` python folder, or the path your Virtualenv_
-project is using, if you are using it (which I strongly encourage). And if you
-do and are also using Virtualenvwrapper_ then you can easily ``add2virtualenv``.
-
-.. _Mercurial: http://www.selenic.com/mercurial/
-.. _Virtualenv: http://pypi.python.org/pypi/virtualenv/
-.. _Virtualenvwrapper: http://www.doughellmann.com/projects/virtualenvwrapper/
+.. _`Python Package Index`: http://pypi.python.org/pypi/django-nomadblog/
 
 Configuration
 =============
@@ -40,12 +22,13 @@ Add ``nomadblog`` to the ``INSTALLED_APPS`` setting of your ``settings.py``::
         'nomadblog',
     )
 
-``django-nomadblog`` comes with migrations for the South_ tool::
+If you use `South`_ you can run the migrations included::
 
     ./manage.py migrate nomadblog
 
-If you don't use migrations (you should!) or use a different way to update
-your database,  use ``syncdb``::
+.. _`South`: http://south.aeracode.org/
+
+If you don't, use your own migration tool or simply ``syncdb``::
 
     ./manage.py syncdb
 
@@ -85,7 +68,7 @@ with your own one, that will be then used by the app views::
 
     POST_MODEL = 'yourapp.models.YourExtendedPostModel'
 
-Overrriding templates
+Overriding templates
 =====================
 
 ``django-nomadblog`` uses different templates to list posts, show a post details,
