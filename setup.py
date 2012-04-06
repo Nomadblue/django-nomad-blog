@@ -30,14 +30,13 @@ for package_dir in package_dirs:
             data_files.append([dirpath, [os.path.join(dirpath, f) for f in filenames]])
 
 doc_dir = os.path.join(os.path.dirname(__file__), 'docs')
-long_desc_file = os.path.join(doc_dir, 'overview.rst')
 version_num = __import__('nomadblog').__version__
 
 setup(
     name='django-nomadblog',
     version=version_num,
     description='A minimalist Django blogging system.',
-    long_description=open(long_desc_file).read(),
+    long_description=open('README.rst').read(),
     author='Hector Garcia',
     author_email='hector@nomadblue.com',
     url='https://github.com/nabucosound/django-nomadblog/',
