@@ -1,8 +1,6 @@
-include README
+include README.rst
 include LICENSE
-include INSTALL
 include CHANGELOG
-include TODO
 include MANIFEST.in
 include single_blog_example/README
 include multiple_blogs_example/README
