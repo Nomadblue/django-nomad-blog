@@ -31,7 +31,7 @@ for package_dir in package_dirs:
 
 doc_dir = os.path.join(os.path.dirname(__file__), 'docs')
 long_desc_file = os.path.join(doc_dir, 'overview.rst')
-version_num = __import__('nomadblog').__version__ 
+version_num = __import__('nomadblog').__version__
 
 setup(
     name='django-nomadblog',
@@ -40,8 +40,8 @@ setup(
     long_description=open(long_desc_file).read(),
     author='Hector Garcia',
     author_email='hector@nomadblue.com',
-    url='http://nomadblue.com/projects/django-nomadblog/',
-    download_url='http://bitbucket.org/nabucosound/django-nomadblog/downloads/django-nomadblog-%s.tar.gz' % version_num,
+    url='https://github.com/nabucosound/django-nomadblog/',
+    download_url="https://github.com/nabucosound/django-nomadblog/zipball/v%s" % version_num,
     packages=packages,
     data_files=data_files,
     classifiers=[
