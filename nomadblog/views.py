@@ -4,12 +4,11 @@ from django.shortcuts import get_object_or_404
 from django.conf import settings
 
 from nomadblog.models import Blog, BlogUser, Category
+from nomadblog.utils import get_post_model
 
 multiblog = getattr(settings, 'NOMADBLOG_MULTIPLE_BLOGS', False)
 DEFAULT_STATUS = getattr(settings, 'PUBLIC_STATUS', 0)
-POST_MODEL_IMPORT = getattr(settings, 'POST_MODEL', 'nomadblog.models.Post')
-POST_MODULE, dummy, POST_MODEL_NAME = POST_MODEL_IMPORT.rpartition('.')
-POST_MODEL = getattr(__import__(POST_MODULE, fromlist=[POST_MODULE]), POST_MODEL_NAME)
+POST_MODEL = get_post_model()
 
 
 def _get_extra_filters(blog_slug=None, username=None, status=None):
