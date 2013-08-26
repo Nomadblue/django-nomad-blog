@@ -2,12 +2,5 @@ include README.rst
 include LICENSE
 include CHANGELOG
 include MANIFEST.in
-include single_blog_example/README
-include multiple_blogs_example/README
-include single_blog_example/initial_data.json
-include multiple_blogs_example/initial_data.json
 recursive-include docs *
-recursive-include single_blog_example/templates *
-recursive-include multiple_blogs_example/templates *
-recursive-include nomadblog/templates *
 

@@ -1,7 +1,7 @@
 import os
 from distutils.core import setup
 
-package_dirs = ('nomadblog', 'single_blog_example', 'multiple_blogs_example')
+package_dirs = ('nomadblog',)
 
 def fullsplit(path, result=None):
     """
@@ -40,7 +40,7 @@ setup(
     author='Hector Garcia',
     author_email='hector@nomadblue.com',
     url='https://github.com/nabucosound/django-nomadblog/',
-    download_url="https://github.com/nabucosound/django-nomadblog/zipball/v%s" % version_num,
+    download_url="https://github.com/Nomadblue/django-nomadblog/archive/v%s.zip" % version_num,
     packages=packages,
     data_files=data_files,
     classifiers=[
