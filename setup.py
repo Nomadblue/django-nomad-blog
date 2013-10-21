@@ -29,7 +29,6 @@ for package_dir in package_dirs:
         elif filenames:
             data_files.append([dirpath, [os.path.join(dirpath, f) for f in filenames]])
 
-doc_dir = os.path.join(os.path.dirname(__file__), 'docs')
 version_num = __import__('nomadblog').__version__
 
 setup(
@@ -42,7 +41,7 @@ setup(
     url='https://github.com/nabucosound/django-nomadblog/',
     download_url="https://github.com/Nomadblue/django-nomadblog/archive/v%s.zip" % version_num,
     packages=packages,
-    data_files=data_files,
+    package_data={'nomadblog': ['templates/nomadblog/*']},  # Include templates and statics here
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
