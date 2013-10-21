@@ -1,13 +1,10 @@
 from django.conf.urls.defaults import patterns, url
+from nomadblog.views import PostList
 
 
 urlpatterns = patterns('nomadblog.views',
     # List blog posts
-    url(
-        regex=r'^$',
-        view='list_posts',
-        name='list_posts',
-    ),
+    url('^$', PostList.as_view(), name='list_posts'),
     # Show single post, category + slug based URL
     url(
         regex=r'^(?P<category_slug>[-\w]+)/(?P<post_slug>[-\w]+)/$',

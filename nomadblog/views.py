@@ -1,3 +1,4 @@
+from django.views.generic import ListView
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.shortcuts import get_object_or_404
@@ -6,8 +7,9 @@ from django.conf import settings
 from nomadblog.models import Blog, BlogUser, Category
 from nomadblog.utils import get_post_model
 
+
 multiblog = getattr(settings, 'NOMADBLOG_MULTIPLE_BLOGS', False)
-DEFAULT_STATUS = getattr(settings, 'PUBLIC_STATUS', 0)
+DEFAULT_STATUS = getattr(settings, 'DEFAULT_STATUS', 0)
 POST_MODEL = get_post_model()
 
 
@@ -30,22 +32,16 @@ def _get_extra_filters(blog_slug=None, username=None, status=None):
         extra_filters['status'] = status
     return extra_filters
 
-def list_posts_ctxt(request, context=None, model=POST_MODEL,
-                    blog_slug=None, username=None, status=None):
-    """
-    Returns a queryset of post instances. ``model`` param specifies
-    post Model to retrieve, either ``Post`` model by default or
-    a subclass defined by the user. ``blog_slug`` and ``status``
-    may be included as extra filters in the query, if passed.
-    If no ``context`` is passed, it returns the results in a new
-    ``RequestContext`` instead of updating the given one.
-    """
-    extra_filters = _get_extra_filters(blog_slug, username, status)
-    posts = model.objects.filter(**extra_filters)
-    ctxt_dict = {'posts': posts}
-    ctxt_dict.update(**extra_filters)
-    return RequestContext(request, ctxt_dict) if context is None \
-        else context.update(ctxt_dict)
+
+class PostList(ListView):
+    model = POST_MODEL
+    template_name = 'nomadblog/list_posts.html'
+
+    def get_queryset(self, *args, **kwargs):
+        """Extra kwargs may be passed using the urlpattern definitions"""
+        extra_filters = _get_extra_filters(kwargs.get('blog_slug', None), kwargs.get('username', None), kwargs.get('status', DEFAULT_STATUS))
+        return self.model.objects.filter(**extra_filters)
+
 
 def show_post_ctxt(request, category_slug, post_slug, context=None, model=POST_MODEL,
                    blog_slug=None, username=None, status=None):
