@@ -47,7 +47,7 @@ def list_posts_ctxt(request, context=None, model=POST_MODEL,
     return RequestContext(request, ctxt_dict) if context is None \
         else context.update(ctxt_dict)
 
-def show_post_ctxt(request, category, slug, context=None, model=POST_MODEL,
+def show_post_ctxt(request, category_slug, post_slug, context=None, model=POST_MODEL,
                    blog_slug=None, username=None, status=None):
     """
     Returns a post instance with given ``slug``, related to category. ``model``
@@ -58,8 +58,8 @@ def show_post_ctxt(request, category, slug, context=None, model=POST_MODEL,
     ``RequestContext`` instead of updating the given one.
     """
     extra_filters = _get_extra_filters(blog_slug, username, status)
-    cat = get_object_or_404(Category, name=category)
-    post = get_object_or_404(model, category=cat, slug=slug, **extra_filters)
+    cat = get_object_or_404(Category, slug=category_slug)
+    post = get_object_or_404(model, category=cat, slug=post_slug, **extra_filters)
     ctxt_dict = {'post': post}
     ctxt_dict.update(**extra_filters)
     return RequestContext(request, ctxt_dict) if context is None \
@@ -84,7 +84,7 @@ def list_categories_ctxt(request, context=None, model=POST_MODEL,
     return RequestContext(request, ctxt_dict) if context is None \
         else context.update(ctxt_dict)
 
-def list_posts_by_category_ctxt(request, category, context=None, model=POST_MODEL,
+def list_posts_by_category_ctxt(request, category_slug, context=None, model=POST_MODEL,
                                 blog_slug=None, username=None, status=None):
     """
     Returns a list of posts related to a given category. ``model`` param
@@ -95,9 +95,9 @@ def list_posts_by_category_ctxt(request, category, context=None, model=POST_MODE
     ``RequestContext`` instead of updating the given one.
     """
     extra_filters = _get_extra_filters(blog_slug, username, status)
-    cat = get_object_or_404(Category, name=category)
+    cat = get_object_or_404(Category, slug=category_slug)
     posts = model.objects.filter(category=cat, **extra_filters)
-    ctxt_dict = {'posts': posts, 'category': category}
+    ctxt_dict = {'posts': posts, 'category': cat}
     ctxt_dict.update(**extra_filters)
     return RequestContext(request, ctxt_dict) if context is None \
         else context.update(ctxt_dict)
@@ -120,14 +120,14 @@ def list_posts(request, model=POST_MODEL, blog_slug=None, username=None,
     context.update(extra_ctxt)
     return render_to_response(template, {'multiblog': multiblog}, context)
 
-def show_post(request, category, slug, model=POST_MODEL, blog_slug=None,
+def show_post(request, category_slug, post_slug, model=POST_MODEL, blog_slug=None,
               username=None, status=DEFAULT_STATUS,
               extra_ctxt={}, template='nomadblog/show_post.html'):
     """
     By default, a published Post model instance for a given user is retrieved.
     You can override these settings if you want to.
     """
-    context = show_post_ctxt(request, category, slug, model=model,
+    context = show_post_ctxt(request, category_slug, post_slug, model=model,
                              username=username, blog_slug=blog_slug,
                              status=status)
     context.update(extra_ctxt)

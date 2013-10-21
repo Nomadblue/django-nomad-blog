@@ -10,7 +10,7 @@ urlpatterns = patterns('nomadblog.views',
     ),
     # Show single post, category + slug based URL
     url(
-        regex=r'^(?P<category>\w+)/(?P<slug>[-\w]+)/$',
+        regex=r'^(?P<category_slug>[-\w]+)/(?P<post_slug>[-\w]+)/$',
         view='show_post',
         name='show_post',
     ),
@@ -22,7 +22,7 @@ urlpatterns = patterns('nomadblog.views',
     ),
     # List posts by category
     url(
-        regex=r'^(?P<category>\w+)/$',
+        regex=r'^(?P<category>[-\w]+)/$',
         view='list_posts_by_category',
         name='list_posts_by_category',
     ),
