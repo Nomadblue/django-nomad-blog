@@ -1,25 +1,12 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.conf import settings
+from django.core.urlresolvers import reverse
 
-NOMADBLOG_MULTIPLE_BLOGS = getattr(settings, 'NOMADBLOG_MULTIPLE_BLOGS', False) 
-
-
-try:
-    from settings import POST_STATUS_CHOICES
-except ImportError:
-    PUBLIC_STATUS = 0
-    DRAFT_STATUS = 1
-    PRIVATE_STATUS = 2
-    POST_STATUS_CHOICES = (
-        (PUBLIC_STATUS, 'public'),
-        (DRAFT_STATUS, 'draft'),
-        (PRIVATE_STATUS, 'private'),
-    )
+NOMADBLOG_MULTIPLE_BLOGS = getattr(settings, 'NOMADBLOG_MULTIPLE_BLOGS', False)
 
 
 class Blog(models.Model):
-    users = models.ManyToManyField(User, through='BlogUser')
+    users = models.ManyToManyField(settings.AUTH_USER_MODEL, through='BlogUser')
     slug = models.SlugField(max_length=50, unique=True)
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=500)
@@ -28,16 +15,15 @@ class Blog(models.Model):
     def __unicode__(self):
         return u"%s" % self.title
 
-    @models.permalink
     def get_absolute_url(self):
         filters = {}
         if NOMADBLOG_MULTIPLE_BLOGS:
             filters['blog_slug'] = self.slug
-        return ('list_posts', (), filters)
+        return reverse('list_posts', kwargs=filters)
 
 
 class BlogUser(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     blog = models.ForeignKey(Blog)
 
     def __unicode__(self):
@@ -55,6 +41,16 @@ class Category(models.Model):
 
 
 class Post(models.Model):
+    PUBLIC_STATUS = 0
+    DRAFT_STATUS = 1
+    PRIVATE_STATUS = 2
+    DEFAULT_POST_STATUS_CHOICES = (
+        (PUBLIC_STATUS, 'public'),
+        (DRAFT_STATUS, 'draft'),
+        (PRIVATE_STATUS, 'private'),
+    )
+    POST_STATUS_CHOICES = getattr(settings, 'POST_STATUS_CHOICES', DEFAULT_POST_STATUS_CHOICES)
+
     bloguser = models.ForeignKey(BlogUser)
     pub_date = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=POST_STATUS_CHOICES, default=0)
@@ -63,13 +59,15 @@ class Post(models.Model):
     category = models.ForeignKey(Category)
     content = models.TextField()
 
-    @models.permalink
     def get_absolute_url(self):
         filters = {'category': self.category.name, 'slug': self.slug}
         if NOMADBLOG_MULTIPLE_BLOGS:
             filters['blog_slug'] = self.bloguser.blog.slug
-        return ('show_post', (), filters)
+        return reverse('show_post', kwargs=filters)
 
     def __unicode__(self):
-        return "%s - %s" % (self.bloguser, self.title)
+        return u"%s - %s" % (self.bloguser, self.title)
+
+    class Meta:
+        abstract = True
 
