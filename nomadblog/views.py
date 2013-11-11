@@ -1,6 +1,4 @@
 from django.views.generic import ListView, DetailView
-from django.shortcuts import render_to_response
-from django.template import RequestContext
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 
@@ -31,7 +29,18 @@ def _get_extra_filters(kwargs):
     return extra_filters
 
 
-class PostList(ListView):
+class MultiblogMixin(object):
+
+    def get_context_data(self, *args, **kwargs):
+        """Sometimes we need to know if we nomadblog is multiblog enabled"""
+        context = super(MultiblogMixin, self).get_context_data(*args, **kwargs)
+        context['multiblog'] = multiblog
+        if multiblog:
+            context['blog'] = get_object_or_404(Blog, slug=self.kwargs.get('blog_slug', ''))
+        return context
+
+
+class PostList(MultiblogMixin, ListView):
     model = POST_MODEL
     template_name = 'nomadblog/list_posts.html'
 
@@ -41,7 +50,7 @@ class PostList(ListView):
         return self.model.objects.filter(**extra_filters)
 
 
-class PostDetail(DetailView):
+class PostDetail(MultiblogMixin, DetailView):
     model = POST_MODEL
     template_name = 'nomadblog/show_post.html'
 
@@ -52,76 +61,23 @@ class PostDetail(DetailView):
         return self.model.objects.filter(**extra_filters)
 
 
-def list_categories_ctxt(request, context=None, model=POST_MODEL,
-                         blog_slug=None, username=None, status=None):
-    """
-    Returns a list of categories. ``model`` param specifies post Model to
-    retrieve, either ``Post`` model by default or
-    a subcclass defined by the user. ``blog_slug`` and ``status``
-    may be included as extra filters in the query, if passed.
-    If no ``context`` is passed, it returns the results in a new
-    ``RequestContext`` instead of updating the given one.
-    """
-    extra_filters = _get_extra_filters(blog_slug, username, status)
-    posts = model.objects.filter(**extra_filters)
-    cat_ids = posts.values_list('category', flat=True)
-    categories = Category.objects.filter(id__in=cat_ids)
-    ctxt_dict = {'categories': categories}
-    ctxt_dict.update(**extra_filters)
-    return RequestContext(request, ctxt_dict) if context is None \
-        else context.update(ctxt_dict)
+class PostsByCategoryList(MultiblogMixin, ListView):
+    model = POST_MODEL
+    template_name = 'nomadblog/list_posts_by_category.html'
+
+    def get_queryset(self, *args, **kwargs):
+        """Extra kwargs may be passed using the urlpattern definitions"""
+        extra_filters = _get_extra_filters(self.kwargs)
+        self.category = get_object_or_404(Category, slug=self.kwargs.get('category_slug', ''))
+        extra_filters['category'] = self.category
+        return self.model.objects.filter(**extra_filters).order_by('-pub_date')
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(PostsByCategoryList, self).get_context_data(*args, **kwargs)
+        context['category'] = self.category
+        return context
 
 
-def list_posts_by_category_ctxt(request, category_slug, context=None, model=POST_MODEL,
-                                blog_slug=None, username=None, status=None):
-    """
-    Returns a list of posts related to a given category. ``model`` param
-    specifies post Model to retrieve, either ``Post`` model by default or
-    a subcclass defined by the user. ``blog_slug`` and ``status``
-    may be included as extra filters in the query, if passed.
-    If no ``context`` is passed, it returns the results in a new
-    ``RequestContext`` instead of updating the given one.
-    """
-    extra_filters = _get_extra_filters(blog_slug, username, status)
-    cat = get_object_or_404(Category, slug=category_slug)
-    posts = model.objects.filter(category=cat, **extra_filters)
-    ctxt_dict = {'posts': posts, 'category': cat}
-    ctxt_dict.update(**extra_filters)
-    return RequestContext(request, ctxt_dict) if context is None \
-        else context.update(ctxt_dict)
-
-
-# You can use these following views as examples of how to use the _ctxt
-# functions above and get more flexibility, or you can simply use them
-# directly as views into your project.
-
-def list_categories(request, model=POST_MODEL, blog_slug=None,
-                    username=None, status=DEFAULT_STATUS,
-                    extra_ctxt={}, template='nomadblog/list_categories.html'):
-    """
-    By default, a queryset of categories related to published Post model
-    instances for all users are retrieved.
-    You can override these settings if you want to.
-    """
-    context = list_categories_ctxt(request, blog_slug=blog_slug,
-                                   username=username)
-    context.update(extra_ctxt)
-    return render_to_response(template, {'multiblog': multiblog}, context)
-
-
-def list_posts_by_category(request, category, model=POST_MODEL,
-                           blog_slug=None, username=None,
-                           status=DEFAULT_STATUS, order='-pub_date',
-                           extra_ctxt={},
-                           template='nomadblog/list_posts_by_category.html'):
-    """
-    By default, a queryset of published Post model
-    instances related to the given category and for all users are retrieved.
-    You can override these settings if you want to.
-    """
-    context = list_posts_by_category_ctxt(request, category, model=model,
-                                          username=username,
-                                          blog_slug=blog_slug)
-    context['posts'] = context['posts'].order_by(order)
-    context.update(extra_ctxt)
-    return render_to_response(template, {'multiblog': multiblog}, context)
+class CategoriesList(MultiblogMixin, ListView):
+    model = Category
+    template_name = 'nomadblog/list_categories.html'

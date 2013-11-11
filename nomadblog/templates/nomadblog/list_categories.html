@@ -1,19 +1,20 @@
 {% extends 'nomadblog/base.html' %}
 
 {% block nomadblog %}
+
 <h1>Category list</h1>
 <ul id="categories-list">
-{% for cat in categories %}
+  {% for cat in object_list %}
     <li>
     {% if multiblog %}
-    <a href="{% url list_posts_by_category bloguser__blog.slug cat.name %}" class="link-categories">{{ cat.name }}</a>
+      <a href="{% url 'list_posts_by_category' blog.slug cat.name %}" class="link-categories">{{ cat.name }}</a>
     {% else %}
-    <a href="{% url list_posts_by_category cat.name %}" class="link-categories">{{ cat.name }}</a>
+      <a href="{% url 'list_posts_by_category' cat.name %}" class="link-categories">{{ cat.name }}</a>
     {% endif %}
     </li>
-{% empty %}
+  {% empty %}
     <li>Sorry, no categories found.</li>
-{% endfor %}
+  {% endfor %}
 </ul>
-{% endblock %}
 
+{% endblock %}
