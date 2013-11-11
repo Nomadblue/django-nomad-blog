@@ -13,11 +13,8 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   features
    installation
    configuration
    overriding_templates
-   view_params
-   custom_view_wrappers
    reverse_urls
 
