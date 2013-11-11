@@ -61,7 +61,7 @@ class Post(models.Model):
     content = models.TextField()
 
     def get_absolute_url(self):
-        filters = {'category_slug': self.category.slug, 'post_slug': self.slug}
+        filters = {'category_slug': self.category.slug, 'slug': self.slug}
         if NOMADBLOG_MULTIPLE_BLOGS:
             filters['blog_slug'] = self.bloguser.blog.slug
         return reverse('show_post', kwargs=filters)

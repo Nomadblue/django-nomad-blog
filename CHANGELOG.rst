@@ -1,5 +1,14 @@
-Nomadblog v0.4
-==============
+=========
+CHANGELOG
+=========
+
+Version 1.1.1
+=============
+
+* Update to Django 1.6 complatibility
+
+Version 0.4
+===========
 
 * Multiblog support
 * ``BlogUser`` acts as intermediate model between ``Post`` and ``Blog``.
