@@ -34,14 +34,14 @@ for package_dir in package_dirs:
 version_num = __import__('nomadblog').__version__
 
 setup(
-    name='django-nomadblog',
+    name='django-nomad-blog',
     version=version_num,
     description='A minimalist Django blogging system.',
     long_description=open('README.rst').read(),
     author='Hector Garcia',
     author_email='hector@nomadblue.com',
-    url='https://github.com/nabucosound/django-nomadblog/',
-    download_url="https://github.com/Nomadblue/django-nomadblog/archive/v%s.zip" % version_num,
+    url='https://github.com/nabucosound/django-nomad-blog/',
+    download_url="https://github.com/Nomadblue/django-nomad-blog/archive/v%s.zip" % version_num,
     packages=packages,
     package_data={'nomadblog': ['templates/nomadblog/*']},  # Include templates and statics here
     classifiers=[
