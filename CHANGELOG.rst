@@ -2,10 +2,17 @@
 CHANGELOG
 =========
 
+Version 2.0.0
+=============
+
+* Remove example projects, templatetags.
+* Reset south migrations and fix django custom user issues (see
+  http://kevindias.com/writing/django-custom-user-models-south-and-reusable-apps/).
+
 Version 1.1.1
 =============
 
-* Update to Django 1.6 complatibility
+* Update to Django 1.6 compatibility
 
 Version 0.4
 ===========
