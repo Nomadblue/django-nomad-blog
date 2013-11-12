@@ -3,6 +3,7 @@ from distutils.core import setup
 
 package_dirs = ('nomadblog',)
 
+
 def fullsplit(path, result=None):
     """
     Split a pathname into components (the opposite of os.path.join) in a
@@ -23,7 +24,8 @@ for package_dir in package_dirs:
     for dirpath, dirnames, filenames in os.walk(package_dir):
         # Ignore dirnames that start with '.'
         for i, dirname in enumerate(dirnames):
-            if dirname.startswith('.'): del dirnames[i]
+            if dirname.startswith('.'):
+                del dirnames[i]
         if '__init__.py' in filenames:
             packages.append('.'.join(fullsplit(dirpath)))
         elif filenames:
