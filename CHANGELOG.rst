@@ -2,6 +2,11 @@
 CHANGELOG
 =========
 
+Version 2.0.1
+=============
+
+* Fix new package name
+
 Version 2.0.0
 =============
 
