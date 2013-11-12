@@ -1,8 +1,7 @@
 include README.rst
 include LICENSE
-include CHANGELOG
+include CHANGELOG.rst
 include MANIFEST.in
 recursive-include docs *
 recursive-include nomadblog/static *
 recursive-include nomadblog/templates *
-
