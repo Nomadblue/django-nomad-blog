@@ -2,6 +2,12 @@
 CHANGELOG
 =========
 
+Version 2.1.0
+=============
+
+* Add bio field to blog users so we can have a different user description
+  for each blog belonging to.
+
 Version 2.0.1
 =============
 
