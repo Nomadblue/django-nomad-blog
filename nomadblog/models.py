@@ -25,6 +25,7 @@ class Blog(models.Model):
 class BlogUser(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     blog = models.ForeignKey(Blog)
+    bio = models.CharField(max_length=255, blank=True)
 
     def __unicode__(self):
         return u"%s - %s" % (self.user, self.blog)
